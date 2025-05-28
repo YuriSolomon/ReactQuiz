@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import QUESTIONS from '../questions.js';
 import quizCompleteImg from '../assets/quiz-complete.png';
@@ -11,11 +11,13 @@ export default function Quiz() {
 
     const quizIsComplete = activeQuestionIndex === QUESTIONS.length;
 
-    function handleSelectAnswer(selectedAnswer) {
+    const handleSelectAnswer =  useCallback(function handleSelectAnswer(selectedAnswer) { //use callback to run the function once for depandancy of handleSkipAnswer. depandancy is not needed.
         setUserAnswers((prevUserAnswers) => {
             return [...prevUserAnswers, selectedAnswer];
         });
-    };
+    }, []);
+
+    const handleSkipAnswer = useCallback(() => handleSelectAnswer(null), [handleSelectAnswer]); //creates a callback to prevent useEffect depandancy from being called on function. add handleSelectAnswer as a depandancy because it is affected by props and might run on props change
 
     if (quizIsComplete) {
         return <div id="summary">
