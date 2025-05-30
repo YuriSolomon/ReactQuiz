@@ -29,9 +29,10 @@ export default function Quiz() {
     const shuffeledAnswers = [...QUESTIONS[activeQuestionIndex].answers];
     shuffeledAnswers.sort(() => Math.random() - 0.5); //Math.random() gives a value between 0 and 1, reducing 0.5 will give a 50% chance for a negative number
 
+    // key was added to QuestionTimer. this will unmount and remount the component on key change.
     return (
         <div id="quiz">
-            <QuestionTimer timeout={10000} onTimeout={() => handleSelectAnswer(null)} />
+            <QuestionTimer key={activeQuestionIndex} timeout={10000} onTimeout={() => handleSelectAnswer(null)} />
             <div id="question">
                 <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
                 <ul id="answers">
