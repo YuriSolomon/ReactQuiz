@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 
 import QUESTIONS from '../questions.js';
-import quizCompleteImg from '../assets/quiz-complete.png';
 import Question from "./Question.jsx";
+import Summary from "./Summary.jsx";
 
 export default function Quiz() {
     const [userAnswers, setUserAnswers] = useState([]);
@@ -19,10 +19,7 @@ export default function Quiz() {
     const handleSkipAnswer = useCallback(() => handleSelectAnswer(null), [handleSelectAnswer]); //creates a callback to prevent useEffect depandancy from being called on function. add handleSelectAnswer as a depandancy because it is affected by props and might run on props change
 
     if (quizIsComplete) {
-        return <div id="summary">
-            <img src={quizCompleteImg} alt="Trophy icon" />
-            <h2>Quiz Completed!</h2>
-        </div>
+        return <Summary userAnswers={userAnswers} />
     }
 
     // key was added to QuestionTimer. this will unmount and remount the component on key change.
